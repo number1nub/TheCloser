@@ -10,6 +10,24 @@ EditList() {
 	Gui, Show,, Edit TheCloser Windows
 	return
 	
+	ButtonAdd:
+		Gui, +OwnDialogs
+		InputBox, v, Add Closer Window, Enter new title/class
+		if (ErrorLevel||!v)
+			return
+		GuiControl,, ListBox1, %v%
+		return
+	
+	ButtonRemove:
+		Gui, Submit, NoHide
+		ControlGet, items, List,, ListBox1, Edit TheCloser Windows
+		tmp:=""
+		Loop, Parse, items, `n, `r
+			if (A_LoopField != lbWins)
+				tmp .= (tmp ? "," : "") A_LoopField
+		GuiControl,, ListBox1, `,%tmp%
+		return
+	
 	GuiClose:
 	GuiEscape:
 		ControlGet, items, List,, ListBox1, Edit TheCloser Windows

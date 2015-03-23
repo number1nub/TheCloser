@@ -11,8 +11,6 @@ return
 
 #Include class Settings.ahk
 #Include BuildTrayMenu.ahk
-#Include ButtonAdd.ahk
-#Include ButtonRemove.ahk
 #Include EditList.ahk
 #Include Open.ahk
 #Include RegisterHotkeys.ahk
