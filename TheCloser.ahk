@@ -2,17 +2,17 @@
 #SingleInstance,Force
 SetWorkingDir, %A_ScriptDir%
 
-global s := new Settings({name: "winList.txt"})
+global s := new Settings()
 
 RegisterHotkeys()
 BuildTrayMenu()
 return
 
 
-#Include class Settings.ahk
-#Include BuildTrayMenu.ahk
-#Include EditList.ahk
-#Include Open.ahk
-#Include RegisterHotkeys.ahk
-#Include CloseWin.ahk
-#Include m.ahk
+#Include <BuildTrayMenu>
+#Include <class Settings>
+#Include <CloseWin>
+#Include <EditList>
+#Include <m>
+#Include <Open>
+#Include <RegisterHotkeys>
