@@ -1,4 +1,4 @@
-﻿class Settings
+class Settings
 {
 	static defaults:="Chrome_WidgetWin_1,IEFrame,MozillaWindowClass"	
 	

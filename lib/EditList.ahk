@@ -1,4 +1,4 @@
-﻿EditList(title="Edit TheCloser Windows") {
+EditList(title="Edit TheCloser Windows") {
 	static lbWins, lastWin
 	Gui, +Delimiter`,
 	Gui, +ToolWindow +AlwaysOnTop

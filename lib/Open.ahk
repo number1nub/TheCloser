@@ -1,4 +1,4 @@
-﻿Open() {
+Open() {
 	if (A_ThisMenuItem = Format("Open {1} File",s.name))
 		Run, % "*edit " s.name
 	else if (A_ThisMenuItem = "Open Containing Dir")

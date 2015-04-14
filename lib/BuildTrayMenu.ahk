@@ -1,4 +1,4 @@
-﻿BuildTrayMenu() {
+BuildTrayMenu() {
 	Menu, DefaultAHK, Standard
 	Menu, Tray, NoStandard
 	Menu, Tray, Add, Edit Window List, EditList
