@@ -4,10 +4,17 @@ EditList(title="Edit TheCloser Windows") {
 	Gui, +ToolWindow +AlwaysOnTop
 	Gui, Margin, 10, 5
 	Gui, Font, s11 cBlue, Segoe UI
-	Gui, Add, ListBox, w300 h350 sort AltSubmit hwndlbWinsID gSelChanged vlbWins, % s.winList
+	Gui, Add, ListView, w400 h350 gSelChanged vlbWins, Window,Description,Custom Send
+	;~ Gui, Add, ListBox, w300 h350 sort AltSubmit hwndlbWinsID gSelChanged vlbWins, % s.winList
 	Gui, Add, Button, x70 y+5 w85 h35 Default hwndBtnAdd, &Add
 	Gui, Add, Button, x+5 yp w85 h35 disabled hwndBtnRemove, &Remove
 	Gui, Show,, %title%
+	
+	wlist := config.sn("//winlist/win")
+	while win:=wlist.item[A_Index-1]
+		m(win.ssn("@display").text)
+	LV_Add("", win.text, ssn(win, "@display").text, ssn(win, "@Send").text)
+	LV_ModifyCol()
 	
 	Hotkey, ^n, On
 	return
