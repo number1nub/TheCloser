@@ -1,14 +1,14 @@
 ﻿CloseWin() {
-	MouseGetPos,,, win
-	WinGetTitle, winTitle, ahk_id %win%
-	WinGetClass, winClass, ahk_id %win%
+	MouseGetPos,,, id
+	WinGetTitle, winTitle, ahk_id %id%
+	WinGetClass, winClass, ahk_id %id%
 	
-	;TODO: Use the win config settings to send customized keys per window
-	if winTitle contains % s.winList
-		SendInput, {Blind}^{F4}
-	else if winClass contains % s.winList
-		SendInput, {Blind}^{F4}
-	else
-		WinClose, ahk_id %win%
-	return
+	if (!win:=config.ssn("//winlist/win[contains(text(), '" winTitle "')]")) {
+		if (!win:=config.ssn("//winlist/win[contains(text(), '" winClass "')]")) {
+			WinClose, ahk_id %id%
+			return
+		}
+	}
+	skeys:=config.ea(win).send, skeys:=skeys?skeys:"^{F4}"
+	SendInput, % "{Blind}" skeys
 }

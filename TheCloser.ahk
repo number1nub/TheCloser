@@ -3,24 +3,17 @@
 SetTitleMatchMode, 2
 SetWorkingDir, %A_ScriptDir%
 
-config:=new Xml("config")
-global config	;, s:=new Settings()
+global config:=new Xml("config", A_AppData "\WSNHapps\TheCloser\config.xml")
 
-if (!config.fileExists) {
-	wlist := config.add2("winlist")
-	config.under(wlist,"win",{display:"Chrome"},"Chrome_Widget_Win1")
-	config.under(wlist,"win",{display:"Internet Explorer"},"IEFrame")
-	config.under(wlist,"win",{display:"FireFox"},"MozillaWindowClass")
-	config.save(1)
-}
-
-config.search()
+if (!config.fileExists)
+	Setup()
 
 RegisterHotkeys()
 BuildTrayMenu()
 return
 
 
+#Include <Anchor>
 #Include <BuildTrayMenu>
 #Include <class Settings>
 #Include <class Xml>
@@ -29,6 +22,7 @@ return
 #Include <m>
 #Include <Open>
 #Include <RegisterHotkeys>
+#Include <Setup>
 #Include <sn>
 #Include <ssn>
-#Include Anchor.ahk
+#Include lib\AddHotkey.ahk
