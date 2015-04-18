@@ -1,5 +1,6 @@
 #NoEnv
 #SingleInstance,Force
+SetTitleMatchMode, 2
 SetWorkingDir, %A_ScriptDir%
 
 config:=new Xml("config")
@@ -13,6 +14,7 @@ if (!config.fileExists) {
 	config.save(1)
 }
 
+config.search()
 
 RegisterHotkeys()
 BuildTrayMenu()
@@ -29,3 +31,4 @@ return
 #Include <RegisterHotkeys>
 #Include <sn>
 #Include <ssn>
+#Include Anchor.ahk

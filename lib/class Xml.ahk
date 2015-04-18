@@ -45,10 +45,10 @@
 	unique(info) {
 		if (info.check&&info.text)
 			return
-		if info.under{
+		if (info.under) {
 			if (info.check)
 				find := info.under.SelectSingleNode("*[@" info.check "='" info.att[info.check] "']")
-			if (info.Text)
+			if (info.text)
 				find := this.cssn(info.under,"*[text()='" info.text "']")
 			if (!find)
 				find := this.under(info.under,info.path,info.att)
@@ -143,7 +143,7 @@
 	}
 	
 	Get(path, default) {
-		return value := this.ssn(path).text!="" ? this.ssn(path).text : default
+		return value := this.ssn(path).text ? this.ssn(path).text : default
 	}
 	
 	transform() {
