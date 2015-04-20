@@ -3,12 +3,12 @@ EditList(title="Edit TheCloser Windows") {
 	Gui, +Delimiter`, +ToolWindow +AlwaysOnTop +Resize
 	Gui, Margin, 10, 5
 	Gui, Font, s11 cBlue, Segoe UI
-	Gui, Add, ListView, w400 h350 grid vlbWins glvclick, Window Title/Class,Cust. Send,Name
+	Gui, Add, ListView, w500 h350 grid vlbWins glvclick, Window Title/Class,Cust. Send,Name
 	sn:=config.sn("//winlist/win"), wlist:=[]
 	while win:=sn.item[A_Index-1], ea:=config.ea(win)
 		LV_Add("", win.text, ea.send,ea.display)
 	LV_ModifyCol(), LV_ModifyCol(2, "AutoHdr center")
-	Gui, Add, Button, x70 y+5 w85 h35 Default, &Add
+	Gui, Add, Button, x125 y+5 w85 h35 Default, &Add
 	Gui, Add, Button, x+5 w85 h35, &Edit
 	Gui, Add, Button, x+5 yp w85 h35, &Remove
 	Gui, Show,, %title%
@@ -27,14 +27,16 @@ EditList(title="Edit TheCloser Windows") {
 		return
 	if (editmode)
 		rw:=LV_GetNext(), LV_GetText(wtitle, rw), editwin:=config.ssn("//winlist/win[text()='" wtitle "']"), editatt:=config.ea(editwin)
+	;TODO: Allow window name/class to be added automatically by clicking on a window
 	Gui, +OwnDialogs
 	Gui, 2:Default
 	Gui, +Owner1
 	Gui, Font, % "cBlack" " s11",% "Arial"
 	;~ Gui, Color, % style.Background, % style.Background
-	Gui, Add, Text,, Window Title/Class:
+	Gui, Add, Text, Section, Window Title/Class:
 	Gui, Add, Edit, y+5 cBlue w400 h30 vwtitle, % editmode ? editwin.text : ""
-	Gui, Add, Text, y+20, Display Name (Optional):
+	;~ Gui, Add, Button, x+1 w50 yp-1 h31 gGrabWin, Grab
+	Gui, Add, Text, xs y+20, Display Name (Optional):
 	Gui, Add, Edit, y+5 cBlue w400 h30 vwdisp, % editmode ? editatt.display : ""
 	Gui, Add, Text, y+20, Custom Send Keys (Optional):
 	Gui, Add, Edit, y+5 w400 h30 cBlue vwsend, % editmode ? editatt.send : ""
@@ -62,6 +64,18 @@ EditList(title="Edit TheCloser Windows") {
 	}
 	return
 	
+	GrabWin:
+	;~ m("Activate the desired window and press <F12> to select it.", "Press <Esc> at any time to cancel.")
+	;~ Hotkey, Escape, CancelGrab, On
+	;~ Gui, 2:Show, Disabled, Add a New Window
+	;~ KeyWait, F12
+	;~ WinGetActiveTitle, aTitle
+	;~ WinGetClass, aClass, A
+	return
+	
+	CancelGrab:
+	;~ Hotkey, Escape, Off
+	return
 	
 	ButtonRemove:
 	Gui, Submit, NoHide

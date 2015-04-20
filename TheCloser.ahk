@@ -3,21 +3,22 @@
 SetTitleMatchMode, 2
 SetWorkingDir, %A_ScriptDir%
 
-global config:=new Xml("config", A_AppData "\WSNHapps\TheCloser\config.xml")
+global config:=new Xml("config",A_AppData "\WSNHapps\TheCloser\config.xml")
 
 if (!config.fileExists)
 	Setup()
-
+CheckUpdate()
 RegisterHotkeys()
-BuildTrayMenu()
+TrayMenu()
 return
 
 
+#Include <AddHotkey>
 #Include <Anchor>
-#Include <BuildTrayMenu>
-#Include <class Settings>
+#Include <CheckUpdate>
 #Include <class Xml>
 #Include <CloseWin>
+#Include <ConvertHotkey>
 #Include <EditList>
 #Include <m>
 #Include <Open>
@@ -25,4 +26,5 @@ return
 #Include <Setup>
 #Include <sn>
 #Include <ssn>
-#Include lib\AddHotkey.ahk
+#Include <TrayMenu>
+#Include <TrayTip>
