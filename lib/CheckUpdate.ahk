@@ -14,8 +14,8 @@ CheckUpdate(_ReplaceCurrentScript:=1, _SuppressMsgBox:=0, _CallbackFunction:="",
 	Version_File := A_Temp "\" Filler ".ini", Temp_FileName:=A_Temp "\" Filler ".tmp", VBS_FileName:=A_Temp "\" Filler ".vbs"
 	Loop, %Retry_Count% {
 		_Information := ""
-		UrlDownloadToFile,%Update_URL%,%Version_File%
-		IniRead,UDVersion,%Version_File%,Info,Version,N/A
+		UrlDownloadToFile, %Update_URL%, %Version_File%
+		IniRead, UDVersion, %Version_File%, Info, Version, N/A
 		if (UDVersion = "N/A") {
 			FileDelete,%Version_File%
 			if (A_Index = Retry_Count)

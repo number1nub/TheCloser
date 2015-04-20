@@ -5,7 +5,7 @@ Open() {
 		Run, explore %A_ScriptDir%
 	else if (A_ThisMenuItem = "Exit")
 		ExitApp
-	else if (A_ThisMenuItem = "Backup WinList") {
+	else if (A_ThisMenuItem = "Backup Settings") {
 		Gui +OwnDialogs
 		curfPath := config.file
 		SplitPath, curfPath, curName, curDir
@@ -17,7 +17,7 @@ Open() {
 			FileDelete, %oPath%
 		config.save(1)
 		FileCopy, % config.file, %oPath%, 1
-		m(ErrorLevel ? "There was an error while backing up winList..." : "Successfully backed up config file!", ErrorLevel ? "ico:!" : "ico:i")
+		m(ErrorLevel ? "There was an error while backing up settings..." : "Successfully backed up config file!", ErrorLevel ? "ico:!" : "ico:i")
 		SplitPath, oPath, oName, oDir
 		config.add2("backup", {dir:oDir, name:oName})
 		config.save(1)

@@ -13,6 +13,7 @@ EditList(title="Edit TheCloser Windows") {
 	Gui, Add, Button, x+5 yp w85 h35, &Remove
 	Gui, Show,, %title%
 	Hotkey, ^n, On
+	Hotkey, Delete, On
 	return
 	
 	lvclick:
@@ -78,12 +79,15 @@ EditList(title="Edit TheCloser Windows") {
 	return
 	
 	ButtonRemove:
-	Gui, Submit, NoHide
-	if (!cnt:=LV_GetCount("S"))
+	Gui, 2:Submit, NoHide
+	if (!cnt:=LV_GetCount("S")) {
+		m("You must select a window first!", "ico:!")
 		return
+	}
+	LV_GetText(wtitle, LV_GetNext(), 1)
 	if (m("Are you sure you want to remove " (cnt>1?"the " cnt " selected windows?":"'" wtitle "'?"),"title:Are you sure","btn:yn","ico:?")!="Yes")
-		return
-	rw:=0
+		return	
+	rw:=0	
 	while rw:=LV_GetNext(rw)
 		LV_GetText(wtitle, rw, 1), LV_Delete(rw), config.remove(config.ssn("//winlist/win[text()='" wtitle "']"))
 	return
