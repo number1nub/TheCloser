@@ -1,3 +1,3 @@
-﻿sn(node, path){
+sn(node, path){
 	node.selectNodes(path)
 }

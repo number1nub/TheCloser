@@ -1,4 +1,4 @@
-﻿Anchor(ctrl, anchor="", redraw=false) {
+Anchor(ctrl, anchor="", redraw=false) {
 	Static Ptr, PtrSize, GetParent, GetWindowInfo, SetWindowPos, RedrawWindow, c, cs, cl=0, g, gs, gl=0, gi, gpi, gw, gh
 	if (!Ptr)
 		Ptr:=A_PtrSize?"Ptr":"UInt", PtrSize:=A_PtrSize?A_PtrSize:4, AStr:=A_IsUnicode?"AStr":"Str", Module:=DllCall("GetModuleHandle","Str","user32",Ptr), GetParent:=DllCall("GetProcAddress",Ptr,Module,AStr,"GetParent",Ptr), GetWindowInfo:=DllCall("GetProcAddress",Ptr,Module,AStr,"GetWindowInfo",Ptr), SetWindowPos:=DllCall("GetProcAddress",Ptr,Module,AStr,"SetWindowPos",Ptr), RedrawWindow:=DllCall("GetProcAddress",Ptr,Module,AStr,"RedrawWindow",Ptr), cs:=PtrSize+8, gs:=PtrSize+4, VarSetCapacity(c,cs*255,0), VarSetCapacity(g,gs*99,0), VarSetCapacity(gi,60,0), NumPut(60,gi,0,"UInt")

@@ -1,4 +1,4 @@
-﻿class xml
+class xml
 {
 	keep:=[]
 	

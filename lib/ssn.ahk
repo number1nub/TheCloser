@@ -1,3 +1,3 @@
-﻿ssn(node, path){
+ssn(node, path){
 	node.selectSingleNode(path)
 }

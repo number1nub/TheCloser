@@ -1,4 +1,4 @@
-﻿CloseWin() {
+CloseWin() {
 	MouseGetPos,,, id
 	WinGetTitle, winTitle, ahk_id %id%
 	WinGetClass, winClass, ahk_id %id%

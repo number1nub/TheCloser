@@ -1,4 +1,4 @@
-﻿AddHotkey(cmdname){
+AddHotkey(cmdname){
 	static
 	cmd := config.ssn("//hotkeys/cmd[@name='" cmdname "']")
 	Gui, 3:Destroy
