@@ -1,6 +1,6 @@
 TrayMenu() {
 	ico := RegExReplace(A_ScriptFullPath, "\.(ahk|exe)$", ".ico")
-	url := "http://files.wsnhapps.com/"
+	url := "http://files.wsnhapps.com/TheCloser/TheCloser.ico"
 
 	Menu, DefaultAHK, Standard
 	Menu, Tray, NoStandard
@@ -22,7 +22,7 @@ TrayMenu() {
 	if (A_IsCompiled)
 		Menu, Tray, Icon, % A_ScriptFullpath, -159
 	else {
-		if (!FileExist() TheCloser.ico"))
+		if (!FileExist(ico))
 			URLDownloadToFile, %url%, %ico%
 		Menu, Tray, Icon, % FileExist(ico) ? ico : ""
 	}
