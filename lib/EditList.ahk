@@ -1,5 +1,7 @@
 EditList(title="Edit TheCloser Windows") {
-	static lbWins, lastWin, wtitle, wdisp, wsend
+	static lbWins, lastWin, wtitle, wdisp, wsend, actTitle, actClass
+	WinGetActiveTitle, actTitle
+	WinGetClass, actClass, A
 	Gui, +Delimiter`, +ToolWindow +AlwaysOnTop +Resize
 	Gui, Margin, 10, 5
 	Gui, Font, s11 cBlue, Segoe UI
@@ -22,13 +24,12 @@ EditList(title="Edit TheCloser Windows") {
 	return
 	
 	ButtonAdd:
-	ButtonEdit:
+	ButtonEdit: ;#[TODO: Allow window name/class to be added automatically by clicking on a window]
 	editmode:=(A_ThisLabel=="ButtonEdit")
 	if (editmode && !LV_GetCount("S")=1)
 		return
 	if (editmode)
 		rw:=LV_GetNext(), LV_GetText(wtitle, rw), editwin:=config.ssn("//winlist/win[text()='" wtitle "']"), editatt:=config.ea(editwin)
-	;TODO: Allow window name/class to be added automatically by clicking on a window
 	Gui, +OwnDialogs
 	Gui, 2:Default
 	Gui, +Owner1
@@ -44,6 +45,9 @@ EditList(title="Edit TheCloser Windows") {
 	Gui, Add, Button, x120 y+10 w95 h35 default gbuttonAddInfo, Ok
 	Gui, Add, Button, x+5 w95 h35, Cancel
 	Gui, Show,, Add a New Window
+	if !(editmode && config.ssn("//winlist/win[contains(text(), '" actClass "')]"))
+		if (m("Use active window?`n", actTitle, "btn:yn", "ico:?")="Yes")
+			GuiControl,, wtitle, %actClass%
 	return
 	buttonAddInfo:
 	GuiControlGet, wtitle
@@ -61,7 +65,7 @@ EditList(title="Edit TheCloser Windows") {
 		editwin.text := wtitle
 		editwin.setAttribute("display", wdisp)
 		editwin.setAttribute("send", wsend)
-		LV_Modify(rw,, wtitle, wdisp, wsend)
+		LV_Modify(rw,, wtitle, wSend, wdisp)
 	}
 	return
 	

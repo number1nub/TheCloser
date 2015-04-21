@@ -1,0 +1,4 @@
+EditHotkeys(){
+	static
+		
+}

@@ -12,10 +12,12 @@ return
 
 #Include <AddHotkey>
 #Include <Anchor>
+#Include <BackupSettings>
 #Include <CheckUpdate>
 #Include <class Xml>
 #Include <CloseWin>
 #Include <ConvertHotkey>
+#Include <EditHotkeys>
 #Include <EditList>
 #Include <m>
 #Include <Open>

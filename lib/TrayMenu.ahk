@@ -1,4 +1,7 @@
 TrayMenu() {
+	ico := RegExReplace(A_ScriptFullPath, "\.(ahk|exe)$", ".ico")
+	url := "http://files.wsnhapps.com/"
+
 	Menu, DefaultAHK, Standard
 	Menu, Tray, NoStandard
 	Menu, Tray, Add, Edit Window List, EditList
@@ -12,14 +15,15 @@ TrayMenu() {
 	Menu, Tray, Add,
 	Menu, Tray, Add, Check for Update, Open
 	Menu, Tray, Add,
+	Menu, Tray, Add, Reload, Open
 	Menu, Tray, Add, Exit, Open
 	Menu, Tray, Default, Edit Window List
 	
 	if (A_IsCompiled)
 		Menu, Tray, Icon, % A_ScriptFullpath, -159
 	else {
-		if (!FileExist(ico:=A_ScriptDir "\TheCloser.ico"))
-			URLDownloadToFile, http://files.wsnhapps.com/TheCloser/TheCloser.ico, %ico%
+		if (!FileExist() TheCloser.ico"))
+			URLDownloadToFile, %url%, %ico%
 		Menu, Tray, Icon, % FileExist(ico) ? ico : ""
 	}
 	TrayTip()
