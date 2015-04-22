@@ -1,5 +1,7 @@
 Open() {
-	if (A_ThisMenuItem = "Open Settings File")
+	if (RegExMatch(A_ThisMenuItem, "i)Edit (.+) Hotkey", m))
+		AddHotkey(m1)
+	else if (A_ThisMenuItem = "Open Settings File")
 		Run, % "*edit """ config.file """"
 	else if (A_ThisMenuItem = "Open Containing Dir")
 		Run, explore %A_ScriptDir%
@@ -11,7 +13,5 @@ Open() {
 		BackupSettings()
 	else if (A_ThisMenuItem = "Check for Update")
 		if (!CheckUpdate())
-			m("No update found.", "ico:i")
-	else if (RegExMatch(A_ThisMenuItem, "i)Edit (.+) Hotkey", m))
-		AddHotkey(m1)
+			m("No update found.", "ico:i")	
 }
