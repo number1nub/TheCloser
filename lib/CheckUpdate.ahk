@@ -22,7 +22,6 @@ CheckUpdate(_ReplaceCurrentScript:=1, _SuppressMsgBox:=0, _CallbackFunction:="",
 			UDVersion := A_LoopReadLine ? A_LoopReadLine : "N/A"
 			break
 		}
-		;~ IniRead, UDVersion, %Version_File%, Info, Version, N/A
 		if (UDVersion = "N/A") {
 			FileDelete,%Version_File%
 			if (A_Index = Retry_Count)
@@ -37,53 +36,48 @@ CheckUpdate(_ReplaceCurrentScript:=1, _SuppressMsgBox:=0, _CallbackFunction:="",
 					MsgBox_Result := 1
 			if (_SuppressMsgBox || MsgBox_Result) {
 				URL := Download_URL
-				;~ IniRead, URL, %Version_File%, Info, URL, N/A				
-				if (URL = "N/A")
-					_Information .= "The version info file doesn't have a valid URL key."
+				SplitPath, URL,,, Extension					
+				if (Extension = "ahk" && A_AHKPath = "")
+					_Information .= "The new version of the script is an .ahk filetype and you do not have AutoHotKey installed on this computer.`r`nReplacing the current script is not supported."
+				else if (Extension != "exe" && Extension != "ahk")
+					_Information .= "The new file to download is not an .EXE or an .AHK file type. Replacing the current script is not supported."
 				else {
-					SplitPath, URL,,, Extension					
-					if (Extension = "ahk" && A_AHKPath = "")
-						_Information .= "The new version of the script is an .ahk filetype and you do not have AutoHotKey installed on this computer.`r`nReplacing the current script is not supported."
-					else if (Extension != "exe" && Extension != "ahk")
-						_Information .= "The new file to download is not an .EXE or an .AHK file type. Replacing the current script is not supported."
-					else {
-						IniRead,MD5,%Version_File%,Info,MD5,N/A
-						Loop, %Retry_Count% {
-							UrlDownloadToFile,%URL%,%Temp_FileName%
-							if (FileExist(Temp_FileName)) {
-								if (MD5 = "N/A") {
-									_Information.="The version info file doesn't have a valid MD5 key.", Success:= True
-									Break
-								}
-								else {
-									Ptr:=A_PtrSize?"Ptr":"UInt", H:=DllCall("CreateFile",Ptr,&Temp_FileName,"UInt",0x80000000,"UInt",3,"UInt",0,"UInt",3,"UInt",0,"UInt",0), DllCall("GetFileSizeEx",Ptr,H,"Int64*",FileSize), FileSize:=FileSize = -1 ? 0 : FileSize
-									if (FileSize != 0) {
-										VarSetCapacity(Data,FileSize,0), DllCall("ReadFile",Ptr,H,Ptr,&Data,"UInt",FileSize,"UInt",0,"UInt",0), DllCall("CloseHandle",Ptr,H), VarSetCapacity(MD5_CTX,104,0), DllCall("advapi32\MD5Init",Ptr,&MD5_CTX), DllCall("advapi32\MD5Update",Ptr,&MD5_CTX,Ptr,&Data,"UInt",FileSize), DllCall("advapi32\MD5Final",Ptr,&MD5_CTX), FileMD5:=""
-										Loop, % StrLen(Hex:="123456789ABCDEF0")
-											N := NumGet(MD5_CTX,87+A_Index,"Char"), FileMD5 .= SubStr(Hex,N>>4,1) SubStr(Hex,N&15,1)
-										VarSetCapacity(Data,FileSize,0), VarSetCapacity(Data,0)
-										if (FileMD5 != MD5) {
-											FileDelete,%Temp_FileName%
-											if (A_Index = Retry_Count)
-												_Information .= "The MD5 hash of the downloaded file does not match the MD5 hash in the version info file."
-											else
-												Sleep, 500
-											Continue
-										}
-										else
-											Success := True
-									}
-									else
-										DllCall("CloseHandle",Ptr,H), Success := True									
-								}
+					IniRead,MD5,%Version_File%,Info,MD5,N/A
+					Loop, %Retry_Count% {
+						UrlDownloadToFile,%URL%,%Temp_FileName%
+						if (FileExist(Temp_FileName)) {
+							if (MD5 = "N/A") {
+								_Information.="The version info file doesn't have a valid MD5 key.", Success:= True
+								Break
 							}
 							else {
-								if (A_Index = Retry_Count)
-									_Information .= "Unable to download the latest version of the file from " URL "."
+								Ptr:=A_PtrSize?"Ptr":"UInt", H:=DllCall("CreateFile",Ptr,&Temp_FileName,"UInt",0x80000000,"UInt",3,"UInt",0,"UInt",3,"UInt",0,"UInt",0), DllCall("GetFileSizeEx",Ptr,H,"Int64*",FileSize), FileSize:=FileSize = -1 ? 0 : FileSize
+								if (FileSize != 0) {
+									VarSetCapacity(Data,FileSize,0), DllCall("ReadFile",Ptr,H,Ptr,&Data,"UInt",FileSize,"UInt",0,"UInt",0), DllCall("CloseHandle",Ptr,H), VarSetCapacity(MD5_CTX,104,0), DllCall("advapi32\MD5Init",Ptr,&MD5_CTX), DllCall("advapi32\MD5Update",Ptr,&MD5_CTX,Ptr,&Data,"UInt",FileSize), DllCall("advapi32\MD5Final",Ptr,&MD5_CTX), FileMD5:=""
+									Loop, % StrLen(Hex:="123456789ABCDEF0")
+										N := NumGet(MD5_CTX,87+A_Index,"Char"), FileMD5 .= SubStr(Hex,N>>4,1) SubStr(Hex,N&15,1)
+									VarSetCapacity(Data,FileSize,0), VarSetCapacity(Data,0)
+									if (FileMD5 != MD5) {
+										FileDelete,%Temp_FileName%
+										if (A_Index = Retry_Count)
+											_Information .= "The MD5 hash of the downloaded file does not match the MD5 hash in the version info file."
+										else
+											Sleep, 500
+										Continue
+									}
+									else
+										Success := True
+								}
 								else
-									Sleep, 500
-								Continue
+									DllCall("CloseHandle",Ptr,H), Success := True									
 							}
+						}
+						else {
+							if (A_Index = Retry_Count)
+								_Information .= "Unable to download the latest version of the file from " URL "."
+							else
+								Sleep, 500
+							Continue
 						}
 					}
 				}
