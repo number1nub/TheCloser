@@ -1,5 +1,6 @@
 CheckUpdate(_ReplaceCurrentScript:=1, _SuppressMsgBox:=0, _CallbackFunction:="", ByRef _Information:="") {
-	Static Update_URL  := "http://files.wsnhapps.com/TheCloser/version.ini"
+	Static Update_URL  := "http://files.wsnhapps.com/TheCloser/TheCloser.text"
+		 , Download_URL := "http://files.wsnhapps.com/TheCloser/TheCloser.ahk"
 		 , Retry_Count := 2
 		 , Version
 		 , Script_Name
@@ -16,7 +17,12 @@ CheckUpdate(_ReplaceCurrentScript:=1, _SuppressMsgBox:=0, _CallbackFunction:="",
 	Loop, %Retry_Count% {
 		_Information := ""
 		UrlDownloadToFile, %Update_URL%, %Version_File%
-		IniRead, UDVersion, %Version_File%, Info, Version, N/A
+		Loop, Read, %Version_File%
+		{
+			UDVersion := A_LoopReadLine ? A_LoopReadLine : "N/A"
+			break
+		}
+		;~ IniRead, UDVersion, %Version_File%, Info, Version, N/A
 		if (UDVersion = "N/A") {
 			FileDelete,%Version_File%
 			if (A_Index = Retry_Count)
@@ -30,7 +36,8 @@ CheckUpdate(_ReplaceCurrentScript:=1, _SuppressMsgBox:=0, _CallbackFunction:="",
 				if (m("There is a new version of " Script_Name " available.", "Current version: " Version, "New version: " UDVersion," ", "Would you like to download it now?", "title:New version available", "btn:yn", "ico:i") = "Yes")
 					MsgBox_Result := 1
 			if (_SuppressMsgBox || MsgBox_Result) {
-				IniRead, URL, %Version_File%, Info, URL, N/A
+				URL := Download_URL
+				;~ IniRead, URL, %Version_File%, Info, URL, N/A				
 				if (URL = "N/A")
 					_Information .= "The version info file doesn't have a valid URL key."
 				else {

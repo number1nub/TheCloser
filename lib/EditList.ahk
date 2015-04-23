@@ -43,12 +43,13 @@ EditList(title="Edit TheCloser Windows") {
 	Gui, Add, Text, y+20, Custom Send Keys (Optional):
 	Gui, Add, Edit, y+5 w400 h30 cBlue vwsend, % editmode ? editatt.send : ""
 	Gui, Add, Button, x120 y+10 w95 h35 default gbuttonAddInfo, Ok
-	Gui, Add, Button, x+5 w95 h35, Cancel
+	Gui, Add, Button, x+5 w95 h35 gButtonCancel, Cancel
 	Gui, Show,, Add a New Window
 	if !(editmode && config.ssn("//winlist/win[contains(text(), '" actClass "')]"))
-		if (m("Use active window?`n", actTitle, "btn:yn", "ico:?")="Yes")
-			GuiControl,, wtitle, %actClass%
+		if (resp:=CMBox(Format("Use active window?`n`nTitle:`n{1}`n`nClass:`n{2}",actTitle,actClass),"Yes - Use Title|Yes - Use Class|No",{ico:"?",title:"Add Active Window"})!="No")
+			GuiControl,, wtitle, % InStr(resp, "Title") ? actTitle : actClass
 	return
+	
 	buttonAddInfo:
 	GuiControlGet, wtitle
 	GuiControlGet, wdisp

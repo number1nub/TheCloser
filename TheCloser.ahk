@@ -18,6 +18,7 @@ return
 #Include <CheckUpdate>
 #Include <class Xml>
 #Include <CloseWin>
+#Include <CMBox>
 #Include <ConvertHotkey>
 #Include <EditHotkeys>
 #Include <EditList>
