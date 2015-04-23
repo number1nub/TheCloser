@@ -1,5 +1,5 @@
 EditList(title="Edit TheCloser Windows") {
-	static lbWins, lastWin, wtitle, wdisp, wsend, actTitle, actClass
+	static lbWins, lastWin, wtitle, wdisp, wsend, actTitle, actClass, ignoreWins:={Progman:"Program Manager",CabinetWClass:"Windows Explorer"}
 	WinGetActiveTitle, actTitle
 	WinGetClass, actClass, A
 	Gui, +Delimiter`, +ToolWindow +AlwaysOnTop +Resize
@@ -24,7 +24,7 @@ EditList(title="Edit TheCloser Windows") {
 	return
 	
 	ButtonAdd:
-	ButtonEdit: ;#[TODO: Allow window name/class to be added automatically by clicking on a window]
+	ButtonEdit:
 	editmode:=(A_ThisLabel=="ButtonEdit")
 	if (editmode && !LV_GetCount("S")=1)
 		return
@@ -45,9 +45,12 @@ EditList(title="Edit TheCloser Windows") {
 	Gui, Add, Button, x120 y+10 w95 h35 default gbuttonAddInfo, Ok
 	Gui, Add, Button, x+5 w95 h35 gButtonCancel, Cancel
 	Gui, Show,, Add a New Window
-	if !(editmode && config.ssn("//winlist/win[contains(text(), '" actClass "')]"))
-		if (resp:=CMBox(Format("Use active window?`n`nTitle:`n{1}`n`nClass:`n{2}",actTitle,actClass),"Yes - Use Title|Yes - Use Class|No",{ico:"?",title:"Add Active Window"})!="No")
+	if !(editmode && config.ssn("//winlist/win[contains(text(), '" actClass "')]/@send").text && ObjHasKey(ignoreWins, actClass)) {
+		if (resp:=CMBox(Format("Use active window?`n`nTITLE:`n{1}`n`nCLASS:`n{2}",actTitle,actClass),"No|Yes - Use Title|Yes - Use Class",{ico:"?",title:"Add Active Window"})!="No")
 			GuiControl,, wtitle, % InStr(resp, "Title") ? actTitle : actClass
+	}
+	ControlFocus, Edit1
+	ControlSend, Edit1, {End}
 	return
 	
 	buttonAddInfo:
