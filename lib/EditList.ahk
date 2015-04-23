@@ -1,5 +1,6 @@
 EditList(title="Edit TheCloser Windows") {
-	static lbWins, lastWin, wtitle, wdisp, wsend, actTitle, actClass, ignoreWins:={Progman:"Program Manager",CabinetWClass:"Windows Explorer"}
+	static lbWins, lastWin, wtitle, wdisp, wsend, actTitle, actClass
+			, ignoreWins := {Progman:"Program Manager",CabinetWClass:"Windows Explorer"}
 	WinGetActiveTitle, actTitle
 	WinGetClass, actClass, A
 	Gui, +Delimiter`, +ToolWindow +AlwaysOnTop +Resize
@@ -14,8 +15,6 @@ EditList(title="Edit TheCloser Windows") {
 	Gui, Add, Button, x+5 w85 h35, &Edit
 	Gui, Add, Button, x+5 yp w85 h35, &Remove
 	Gui, Show,, %title%
-	Hotkey, ^n, On
-	Hotkey, Delete, On
 	return
 	
 	lvclick:
@@ -45,12 +44,20 @@ EditList(title="Edit TheCloser Windows") {
 	Gui, Add, Button, x120 y+10 w95 h35 default gbuttonAddInfo, Ok
 	Gui, Add, Button, x+5 w95 h35 gButtonCancel, Cancel
 	Gui, Show,, Add a New Window
-	if !(editmode && config.ssn("//winlist/win[text()='" actClass "']").text && ObjHasKey(ignoreWins, actClass)) {
-		if (resp:=CMBox(Format("Use active window?`n`nTITLE:`n{1}`n`nCLASS:`n{2}",actTitle,actClass),"No|Yes - Use Title|Yes - Use Class",{ico:"?",title:"Add Active Window"})!="No")
-			GuiControl,, wtitle, % InStr(resp, "Title") ? actTitle : actClass
+	if (!editmode && (actTitle || actClass) && !config.ssn("//winlist/win[text()='" actClass "']") && !ObjHasKey(ignoreWins, actClass)) {
+		exists := 0
+		Loop, % config.sn("//winlist/win").length			
+			exists += InStr(actTitle, config.ssn("//winlist/win[" A_Index "]").text)
+		if (!exists) {
+			Hotkey, Escape, CloseUseActive, On
+			if (resp:=CMBox(Format("Use active window?`n`nTITLE:`n{1}`n`nCLASS:`n{2}",actTitle,actClass),"No|Yes - Use Title|Yes - Use Class",{ico:"?",title:"Add Active Window"}))
+				GuiControl,, wtitle, % InStr(resp, "Title") ? actTitle : actClass
+			Hotkey, Escape, CloseUseActive, Off
+		}
 	}
-	ControlFocus, Edit1
-	ControlSend, Edit1, {End}
+	actTitle := actClass := ""
+	GuiControl, Focus, wtitle
+	SendInput, {End}
 	return
 	
 	buttonAddInfo:
@@ -107,6 +114,10 @@ EditList(title="Edit TheCloser Windows") {
 	Anchor("Button3", "x.5y", 1)
 	return
 	
+	CloseUseActive:
+	ControlClick, Button1, Add Active Window
+	return
+	
 	2GuiClose:
 	2GuiEscape:
 	ButtonCancel:
@@ -117,8 +128,6 @@ EditList(title="Edit TheCloser Windows") {
 	GuiClose:
 	GuiEscape:
 	config.save(1)
-	Hotkey, Delete, Off
-	Hotkey, ^n, Off
 	Gui, Destroy
 	return
 }

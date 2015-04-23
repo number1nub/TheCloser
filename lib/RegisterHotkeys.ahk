@@ -1,14 +1,9 @@
 RegisterHotkeys() {
-	dlist:=config.sn("//disablelist/*")
-	while val:=dlist.item(A_Index-1)
-		GroupAdd, disableGroup, % val.text
+	hotkeys("Delete", "ButtonRemove", "Edit TheCloser Windows")
+	hotkeys("^n", "ButtonAdd", "Edit TheCloser Windows")
+	hotkeys("Escape", "CloseUseActive", "Add Active Window")
 	
-	Hotkey, % config.ssn("//hotkeys/cmd[@name='EditList']").text, EditList	
-	Hotkey, Delete, ButtonRemove, Off
-	Hotkey, ^n, ButtonAdd, Off
-	
-	Hotkey, IfWinNotActive, ahk_group disableGroup
-	Hotkey, % config.ssn("//hotkeys/cmd[@name='CloseWin']").text, CloseWin
-	
-	Hotkey, IfWinActive
+	hks := config.sn("//hotkeys/cmd")
+	while, hk:=hks.item(A_Index-1), ea:=config.ea(hk)
+		hotkeys(hk.text, ea.name, ea.description="Main Closer Hotkey" ? "disableGroup" : "")
 }

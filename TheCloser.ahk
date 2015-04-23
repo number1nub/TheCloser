@@ -22,6 +22,7 @@ return
 #Include <ConvertHotkey>
 #Include <EditHotkeys>
 #Include <EditList>
+#Include <Hotkeys>
 #Include <m>
 #Include <Open>
 #Include <RegisterHotkeys>
