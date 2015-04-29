@@ -1,6 +1,8 @@
 Open() {
 	if (RegExMatch(A_ThisMenuItem, "i)Edit (.+) Hotkey", m))
-		AddHotkey(m1)
+		EditHotkey(m1)
+	else if (A_ThisMenuItem = "Edit Hotkeys")
+		EditHotkeys()
 	else if (A_ThisMenuItem = "Open Settings File")
 		Run, % "*edit """ config.file """"
 	else if (A_ThisMenuItem = "Open Containing Dir")

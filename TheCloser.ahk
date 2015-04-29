@@ -12,7 +12,6 @@ CheckUpdate()
 RegisterHotkeys()
 return
 
-#Include <AddHotkey>
 #Include <Anchor>
 #Include <BackupSettings>
 #Include <CheckUpdate>
@@ -20,6 +19,7 @@ return
 #Include <CloseWin>
 #Include <CMBox>
 #Include <ConvertHotkey>
+#Include <EditHotkey>
 #Include <EditHotkeys>
 #Include <EditList>
 #Include <Hotkeys>

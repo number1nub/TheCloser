@@ -5,12 +5,11 @@ TrayMenu() {
 	Menu, DefaultAHK, Standard
 	Menu, Tray, NoStandard
 	Menu, Tray, Add, Edit Window List, EditList
+	Menu, Tray, Add, Edit Hotkeys, Open
+	Menu, Tray, Add,
 	Menu, Tray, Add, Open Settings File, Open
 	Menu, Tray, Add, Open Containing Dir, Open
 	Menu, Tray, Add, Backup Settings, Open
-	Menu, Tray, Add, 
-	Menu, Tray, Add, Edit CloseWin Hotkey, Open
-	Menu, Tray, Add, Edit EditList Hotkey, Open
 	if (!A_IsCompiled) {
 		Menu, Tray, Add
 		Menu, Tray, Add, Default AHK Menu, :DefaultAHK
