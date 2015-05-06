@@ -1,6 +1,5 @@
 EditList(title="Edit TheCloser Windows") {
-	static lbWins, lastWin, wtitle, wdisp, wsend, actTitle, actClass
-			, ignoreWins := {Progman:"Program Manager",CabinetWClass:"Windows Explorer"}
+	static lbWins, lastWin, wtitle, wdisp, wsend, actTitle, actClass, ignoreWins:={Progman:"Program Manager", CabinetWClass:"Windows Explorer"}
 	WinGetActiveTitle, actTitle
 	WinGetClass, actClass, A
 	Gui, +Delimiter`, +ToolWindow +AlwaysOnTop +Resize
