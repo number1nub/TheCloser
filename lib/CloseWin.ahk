@@ -9,5 +9,6 @@ CloseWin() {
 		}
 	}
 	WinActivate, ahk_id %id%
-	SendInput, % "{Blind}" (closeKeys ? closeKeys : "^{F4}")
+	sKeys := closeKeys ? closeKeys : "^{F4}"
+	SendInput, % "{Blind}" sKeys
 }
