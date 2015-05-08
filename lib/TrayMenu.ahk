@@ -1,6 +1,7 @@
 TrayMenu() {
-	ico := RegExReplace(A_ScriptFullPath, "\.(ahk|exe)$", ".ico")
-	url := "http://files.wsnhapps.com/TheCloser/TheCloser.ico"
+	ico := {Main:"", Dis:"-Disabled", Spec:"-Special"}
+	for c, v in ico
+		ico[c] := {name:(name:=RegExReplace(A_ScriptName, "\.(ahk|exe)$", v) ".ico"), path:A_ScriptDir "\" name, url:"http://files.wsnhapps.com/TheCloser/" name}
 	
 	Menu, DefaultAHK, Standard
 	Menu, Tray, NoStandard
@@ -21,12 +22,10 @@ TrayMenu() {
 	Menu, Tray, Add, Exit, Open
 	Menu, Tray, Default, Edit Window List
 	
-	if (A_IsCompiled)
-		Menu, Tray, Icon, % A_ScriptFullpath, -159
-	else {
-		if (!FileExist(ico))
-			URLDownloadToFile, %url%, %ico%
-		Menu, Tray, Icon, % FileExist(ico) ? ico : ""
-	}
+	for c, v in ico
+		if (!FileExist(v.path))
+			URLDownloadToFile, % v.url, % v.path
+	Menu, Tray, Icon, % FileExist(ico.Main.path) ? ico.Main.path : ""
+	
 	TrayTip()
 }
