@@ -1,6 +1,7 @@
 RegisterHotkeys() {
 	hotkeys("Delete", "ButtonRemove", "Edit TheCloser Windows")
 	hotkeys("^n", "ButtonAdd", "Edit TheCloser Windows")
+	hotkeys("Enter", "EnterKey", "Edit TheCloser Windows")
 	hotkeys("Escape", "CloseUseActive", "Add Active Window")
 	
 	hks := config.sn("//hotkeys/cmd")

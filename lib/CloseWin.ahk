@@ -2,13 +2,11 @@ CloseWin() {
 	MouseGetPos,,, id
 	WinGetTitle, winTitle, ahk_id %id%
 	WinGetClass, winClass, ahk_id %id%
-	if (!closeKeys:=config.ssn("//winlist/win[contains(text(), '" winClass "')]/@send").text) {
-		if (!closeKeys:=config.ssn("//winlist/win[contains(text(), '" winTitle "')]/@send").text) {
-			WinClose, ahk_id %id%
+	while win:=config.sn("//winlist/win").Item[A_Index-1], sk:=config.ea(win).send {
+		if (win.text=winClass || InStr(winTitle, win.text)) {
+			SendInput, % "{Blind}" (sk ? sk : "^{F4}")
 			return
 		}
 	}
-	WinActivate, ahk_id %id%
-	sKeys := closeKeys ? closeKeys : "^{F4}"
-	SendInput, % "{Blind}" sKeys
+	WinClose, ahk_id %id%
 }

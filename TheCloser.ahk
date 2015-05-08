@@ -3,7 +3,7 @@
 SetTitleMatchMode, 2
 SetWorkingDir, %A_ScriptDir%
 
-global config:=new Xml("config",A_AppData "\WSNHapps\TheCloser\config.xml")
+global config:=new Xml("config", A_AppData "\WSNHapps\TheCloser\config.xml")
 
 if (!config.fileExists)
 	Setup()

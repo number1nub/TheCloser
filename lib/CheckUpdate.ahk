@@ -1,6 +1,6 @@
 CheckUpdate(_ReplaceCurrentScript:=1, _SuppressMsgBox:=0, _CallbackFunction:="", ByRef _Information:="") {
 	Static Update_URL  := "http://files.wsnhapps.com/TheCloser/TheCloser.text"
-		 , Download_URL := "http://files.wsnhapps.com/TheCloser/TheCloser.ahk"
+		 , Download_URL := "http://files.wsnhapps.com/TheCloser/TheCloser.exe"
 		 , Retry_Count := 2
 		 , Version
 		 , Script_Name
@@ -32,7 +32,11 @@ CheckUpdate(_ReplaceCurrentScript:=1, _SuppressMsgBox:=0, _CallbackFunction:="",
 		}
 		if (UDVersion > Version) {
 			if (_SuppressMsgBox != 1 && _SuppressMsgBox != 3)
-				if (m("There is a new version of " Script_Name " available.", "Current version: " Version, "New version: " UDVersion," ", "Would you like to download it now?", "title:New version available", "btn:yn", "ico:i") = "Yes")
+				if (m("title:New version available", "btn:yn", "ico:i"
+					, "There is a new version of " Script_Name " available."
+					, "Current version: " Version
+					, "New version: " UDVersion
+					, "`nWould you like to download it now?") = "Yes")
 					MsgBox_Result := 1
 			if (_SuppressMsgBox || MsgBox_Result) {
 				URL := Download_URL
