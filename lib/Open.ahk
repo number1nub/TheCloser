@@ -11,7 +11,7 @@ Open() {
 		ExitApp
 	else if (A_ThisMenuItem = "Reload")
 		Reload
-	else if (A_ThisMenuItem = "Backup Settings")
+	else if (A_ThisMenuItem = "Export Settings")
 		BackupSettings()
 	else if (A_ThisMenuItem = "Check for Update")
 		if (!CheckUpdate())
