@@ -2,8 +2,9 @@
 #SingleInstance,Force
 SetTitleMatchMode, 2
 SetWorkingDir, %A_ScriptDir%
+CheckCredentials()
 
-global config:=new Xml("config", A_AppData "\WSNHapps\TheCloser\config.xml")
+global config:=new xml("config", A_AppData "\WSNHapps\TheCloser\config.xml")
 
 if (!config.fileExists)
 	Setup()
@@ -12,8 +13,10 @@ CheckUpdate()
 RegisterHotkeys()
 return
 
+
 #Include <Anchor>
 #Include <BackupSettings>
+#Include <CheckCredentials>
 #Include <CheckUpdate>
 #Include <class Xml>
 #Include <CloseWin>
