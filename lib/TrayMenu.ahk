@@ -25,7 +25,7 @@ TrayMenu() {
 	for c, v in ico
 		if (!FileExist(v.path))
 			URLDownloadToFile, % v.url, % v.path
-	Menu, Tray, Icon, % FileExist(ico.Main.path) ? ico.Main.path : ""
+	Menu, Tray, Icon, % A_IsAdmin ? (FileExist(ipath:=ico.Spec.path) ? ipath : FileExist(ipath:=ico.Main.path) ? ipath : "") : (FileExist(ipath:=ico.Main.path) ? ipath : "")
 	
 	TrayTip()
 }
