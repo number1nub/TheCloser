@@ -27,7 +27,7 @@ return
 #Include <EditList>
 #Include <Hotkeys>
 #Include <m>
-#Include <Open>
+#Include <MenuAction>
 #Include <RegisterHotkeys>
 #Include <Setup>
 #Include <sn>

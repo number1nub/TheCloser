@@ -1,12 +1,9 @@
-CMBox(msg, btns, opts*) {
+CMBox(msg, btns, opts:="") {
 	optVal:=4096, iconVal:={"x":16,"?":32,"!":48,"i":64}, btnVal:={2:4, 3:2}
-	
 	btns := IsObject(btns) ? btns : StrSplit(btns, "|")
-	optVal += iconVal[opts.ico] + btnVal[btns.MaxIndex()]
-	mTitle := opts.title ? opts.title : RegExReplace(A_ScriptName, "\.(?:ahk|exe|\w{2,5})$")
-	
+	optVal += iconVal[opts.ico]+btnVal[btns.MaxIndex()]
 	SetTimer, ChangeButtons, 5
-	MsgBox, % optVal, % mTitle, % msg
+	MsgBox, % optVal, % mTitle:=opts.title?opts.title:A_ScriptName, % msg
 	IfMsgBox, Yes
 		return btns[1]
 	else IfMsgBox, OK

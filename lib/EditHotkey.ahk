@@ -14,7 +14,7 @@ EditHotkey(cmdname, reload:=""){
 	3GuiEscape:
 	3GuiClose:
 	Gui,3:Destroy
-	return	
+	return
 	
 	edithotkey:
 	Gui,3:Submit,Nohide
