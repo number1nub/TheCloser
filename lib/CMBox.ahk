@@ -7,7 +7,9 @@ CMBox(msg, btns, opts:="") {
 	IfMsgBox, Yes
 		return btns[1]
 	else IfMsgBox, OK
-		return btns[1]	
+		return btns[1]
+	else IfMsgBox, Abort
+		return btns[1]
 	else IfMsgBox, No
 		return btns[2]
 	else IfMsgBox, Retry
