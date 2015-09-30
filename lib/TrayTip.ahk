@@ -1,5 +1,9 @@
 TrayTip() {
-	Menu, Tray, Tip, % StrReplace(A_ScriptName " v;auto_version is running...`n`n", "Version=")
-		 . "Press <" ConvertHotkey(config.ssn("//hotkeys/cmd[@name='CloseWin']").text) "> to close window under mouse`n"
-		 . "Press <" ConvertHotkey(config.ssn("//hotkeys/cmd[@name='EditList']").text) "> to edit the window list"
+	static Version
+	;auto_version
+	
+	txt := RegExReplace(A_ScriptName, "\.(ahk|exe)\s*$") (Version ? " v" Version:"") " is running...`n"
+	while hks:=config.sn("//hotkeys/cmd").Item[A_Index-1], ea:=config.ea(hks)
+		txt .= "`n<" ConvertHotkey(hks.text) "> - " ea.description
+	Menu, Tray, Tip, %txt%
 }

@@ -5,16 +5,16 @@ EditList(title="Edit TheCloser Windows") {
 	WinGetClass, actClass, A
 	
 	Gui, +Delimiter`, +ToolWindow +AlwaysOnTop +Resize
-	Gui, Margin, 10, 5
+	Gui, Margin, 0, 0
 	Gui, Font, s11 cBlue, Segoe UI
 	Gui, Add, ListView, w550 h350 grid altsubmit vlbWins glvclick, Window Title/Class,Cust. Send,Name
 	sn:=config.sn("//winlist/win"), wlist:=[]
 	while win:=sn.item[A_Index-1], ea:=config.ea(win)
 		LV_Add("", RegExReplace(win.text,"%a_space%",A_Space), ea.send, ea.display)
 	LV_ModifyCol(), LV_ModifyCol(2, "AutoHdr center")
-	Gui, Add, Button, x125 y+5 w85 h35, &Add
-	Gui, Add, Button, x+5 w85 h35, &Edit
-	Gui, Add, Button, x+5 yp w85 h35, &Remove
+	Gui, Add, Button, w550 y+0 h35, &Add
+	Gui, Add, Button, w550 y+0 h35, &Edit
+	Gui, Add, Button, y+0 w550 h35, &Remove
 	Gui, Show,, %title%
 	return
 	
@@ -28,11 +28,15 @@ EditList(title="Edit TheCloser Windows") {
 	
 	ButtonAdd:
 	ButtonEdit:
-	editmode:=(A_ThisLabel = "ButtonEdit")
+	editmode := (A_ThisLabel="ButtonEdit")
 	if (editmode && !LV_GetCount("S")=1)
 		return
-	if (editmode)
-		rw:=LV_GetNext(), LV_GetText(wtitle, rw), editwin:=config.ssn("//winlist/win[text()='" RegExReplace(RegExReplace(wtitle,"^\s+","%a_space%"),"\s+$","%a_space%") "']"), editatt:=config.ea(editwin)
+	if (editmode) {
+		rw := LV_GetNext()
+		LV_GetText(wtitle, rw)
+		editwin := config.ssn("//winlist/win[text()='" RegExReplace(RegExReplace(wtitle,"^\s+","%a_space%"),"\s+$","%a_space%") "']")
+		editatt := config.ea(editwin)
+	}
 	Gui, +OwnDialogs
 	Gui, 2:Default
 	Gui, +Owner1
@@ -58,7 +62,7 @@ EditList(title="Edit TheCloser Windows") {
 			Hotkey, Escape, CloseUseActive, Off
 		}
 	}
-	actTitle := actClass := ""
+	actTitle:=actClass:=""
 	GuiControl, Focus, wtitle
 	SendInput, {End}
 	return
@@ -97,15 +101,18 @@ EditList(title="Edit TheCloser Windows") {
 	if (m("Are you sure you want to remove " (cnt>1 ? "the " cnt " selected windows?" : "'" wtitle "'?"), "title:Are you sure", "btn:yn", "ico:?") != "Yes")
 		return
 	rw:=0
-	while rw:=LV_GetNext(rw)
-		LV_GetText(wtitle, rw, 1), LV_Delete(rw), config.remove(config.ssn("//winlist/win[text()='" RegExReplace(RegExReplace(wtitle,"^\s+","%a_space%"),"\s+$","%a_space%") "']"))
+	while rw:=LV_GetNext(rw) {
+		LV_GetText(wtitle, rw, 1)
+		LV_Delete(rw)
+		config.remove(config.ssn("//winlist/win[text()='" RegExReplace(RegExReplace(wtitle,"^\s+","%a_space%"),"\s+$","%a_space%") "']"))
+	}
 	return
 	
 	GuiSize:
 	Anchor("SysListView321", "wh")
-	Anchor("Button1", "x.5y", 1)
-	Anchor("Button2", "x.5y", 1)
-	Anchor("Button3", "x.5y", 1)
+	Anchor("Button1", "wy", 1)
+	Anchor("Button2", "wy", 1)
+	Anchor("Button3", "wy", 1)
 	return
 	
 	CloseUseActive:

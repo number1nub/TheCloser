@@ -6,11 +6,12 @@ TrayMenu() {
 	Menu, DefaultAHK, Standard
 	Menu, Tray, NoStandard
 	Menu, Tray, Add, Edit Window List, EditList
-	Menu, Tray, Add, Edit Hotkeys, MenuAction
+	Menu, Tray, Add, Edit Ignore Window List, IgnoreWinManager
+	Menu, Tray, Add, Edit Hotkeys, EditHotkeys
 	Menu, Tray, Add,
 	Menu, Tray, Add, Open Settings File, MenuAction
 	Menu, Tray, Add, Open Containing Dir, MenuAction
-	Menu, Tray, Add, Export Settings, MenuAction
+	Menu, Tray, Add, Export Settings, BackupSettings
 	if (!A_IsCompiled) {
 		Menu, Tray, Add
 		Menu, Tray, Add, Default AHK Menu, :DefaultAHK
