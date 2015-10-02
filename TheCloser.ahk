@@ -13,25 +13,25 @@ RegisterHotkeys()
 return
 
 
-#Include Lib\Anchor.ahk
-#Include lib\BackupSettings.ahk
-#Include lib\CheckCredentials.ahk
-#Include lib\CheckUpdate.ahk
-#Include lib\class Xml.ahk
-#Include lib\CloseWin.ahk
-#Include lib\CMBox.ahk
-#Include lib\ConvertHotkey.ahk
-#Include lib\EditHotkey.ahk
-#Include lib\EditHotkeys.ahk
-#Include lib\EditList.ahk
-#Include lib\Hotkeys.ahk
-#Include lib\IgnoreWinManager.ahk
-#Include lib\m.ahk
-#Include lib\MenuAction.ahk
-#Include lib\RegisterHotkeys.ahk
-#Include lib\Setup.ahk
-#Include lib\sn.ahk
-#Include lib\ssn.ahk
-#Include lib\TrayMenu.ahk
-#Include lib\TrayTip.ahk
-#Include lib\WinSelector.ahk
+#Include <Anchor>
+#Include <BackupSettings>
+#Include <CheckCredentials>
+#Include <CheckUpdate>
+#Include <class Xml>
+#Include <CloseWin>
+#Include <CMBox>
+#Include <ConvertHotkey>
+#Include <EditHotkey>
+#Include <EditHotkeys>
+#Include <EditList>
+#Include <Hotkeys>
+#Include <IgnoreWinManager>
+#Include <m>
+#Include <MenuAction>
+#Include <RegisterHotkeys>
+#Include <Setup>
+#Include <sn>
+#Include <ssn>
+#Include <TrayMenu>
+#Include <TrayTip>
+#Include <WinSelector>

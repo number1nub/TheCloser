@@ -1,5 +1,6 @@
 Hotkeys(key:="", item:="", win:="") {
 	static hkList:=[]
+	
 	if (!key)
 		return hkList
 	launch := RegExReplace(RegExReplace(item,"&")," ","_")

@@ -2,7 +2,7 @@ MenuAction() {
 	if (A_ThisMenuItem = "Open Settings File")
 		Run, % "*edit """ config.file """"
 	else if (A_ThisMenuItem = "Open Containing Dir")
-		Run, explore %A_ScriptDir%
+		Run, % "explorer.exe /select, """ config.file """"
 	else if (A_ThisMenuItem = "Exit")
 		ExitApp
 	else if (A_ThisMenuItem = "Reload") {

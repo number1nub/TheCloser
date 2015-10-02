@@ -1,25 +1,28 @@
 IgnoreWinManager() {
-	hotkeys(config.ssn("//hotkeys/cmd[@name='CloseWin']").text)
+	static igWinList, guiTitle:="The Closer Ignore Window Manager"
+	
+	while, hk:=config.sn("//hotkeys/cmd").Item[A_Index-1]
+		hotkeys(hk.text)
 	
 	Gui, IgWin:Default
 	Gui, Margin, 0, 0
 	Gui, Font, s11 cBlue, Segoe UI
 	Gui, +ToolWindow +Resize
-	Gui, Add, ListView, w320 h260 grid NoSortHdr +AltSubmit -Multi HWNDh_LVClass, Classes
-	Gui, Add, Button, y+0 w320 h35, &Delete Window
-	Gui, Add, Button, y+0 w320 h35, &Add Window
-	Gui, Show,, The Closer Ignore Window Manager
+	Gui, Add, ListView, w400 h260 grid NoSortHdr +AltSubmit -Multi vigWinList HWNDh_LVClass, Classes
+	Gui, Add, Button, y+0 wp h35, &Delete Window
+	Gui, Add, Button, y+0 wp h35, &Add Window
+	Gui, Show,, %guiTitle%
 	while, dlist:=config.sn("//disablelist/win").Item[A_Index-1]
 		LV_Add("", dlist.text)
 	return	
 	
 	IgWinButtonDeleteWindow:
-	if (!rw:=LV_GetNext(0)) {
-		m("You must select an item!","!")
+	if (!rw:=LV_GetNext(0, "Focused")) {
+		m("You must select an item!", "title:TheCloser Ignore Windows", "!")
 		return
 	}
 	LV_GetText(delWin, rw)
-	if (m("Are you sure you want to delete " delWin "?", "?", "btn:yn")!="YES")
+	if (m("Are you sure you want to delete """ delWin "?""", "?", "btn:yn")!="YES")
 		return
 	LV_Delete(rw)
 	config.remove(config.ssn("//disablelist/win[text()='" delWin "']"))
@@ -29,7 +32,7 @@ IgnoreWinManager() {
 	
 	IgWinButtonAddWindow:
 	selWinInfo:=WinSelector()
-	WinActivate, The Closer Ignore Window Manager
+	WinActivate, %guiTitle%
 	If (!selWinInfo.use)
 		return
 	config.under(config.ssn("//disablelist"), "win",, selWinInfo[selWinInfo.use])
@@ -39,16 +42,14 @@ IgnoreWinManager() {
 	return
 	
 	IgWinGuiClose:
+	IgWinGuiEscape:
 	If (ClassChange) {
-		if ((ans:=m("You must restart TheCloser to apply changes.","","Restart now?","?","btn:ync"))="YES") {
-			Reload
-			Pause
-		}
-		else if (ans="CANCEL")
-			return
+		Reload
+		Pause
 	}
 	Gui, Destroy
-	hotkeys(config.ssn("//hotkeys/cmd[@name='CloseWin']").text)
+	while, hk:=config.sn("//hotkeys/cmd").Item[A_Index-1]
+		hotkeys(hk.text)
 	return
 	
 	IgWinGuiSize:

@@ -4,17 +4,19 @@ EditList(title="Edit TheCloser Windows") {
 	WinGetActiveTitle, actTitle
 	WinGetClass, actClass, A
 	
+	while, hk:=config.sn("//hotkeys/cmd").Item[A_Index-1]
+		hotkeys(hk.text)
+	
 	Gui, +Delimiter`, +ToolWindow +AlwaysOnTop +Resize
 	Gui, Margin, 0, 0
 	Gui, Font, s11 cBlue, Segoe UI
-	Gui, Add, ListView, w550 h350 grid altsubmit vlbWins glvclick, Window Title/Class,Cust. Send,Name
-	sn:=config.sn("//winlist/win"), wlist:=[]
-	while win:=sn.item[A_Index-1], ea:=config.ea(win)
-		LV_Add("", RegExReplace(win.text,"%a_space%",A_Space), ea.send, ea.display)
-	LV_ModifyCol(), LV_ModifyCol(2, "AutoHdr center")
-	Gui, Add, Button, w550 y+0 h35, &Add
-	Gui, Add, Button, w550 y+0 h35, &Edit
-	Gui, Add, Button, y+0 w550 h35, &Remove
+	Gui, Add, ListView, w650 h450 grid altsubmit vlbWins glvclick, Window Title/Class,Cust. Send,Name
+	Gui, Add, Button, wp y+0 h35, &Add
+	Gui, Add, Button, wp y+0 h35, &Edit
+	Gui, Add, Button, y+0 wp h35, &Remove
+	while win:=config.sn("//winlist/win").Item[A_Index-1], ea:=config.ea(win)
+		LV_Add(, RegExReplace(win.text,"%a_space%",A_Space), ea.send, ea.display)
+	LV_ModifyCol(), LV_ModifyCol(1, "Sort"), LV_ModifyCol(2, "Auto Center")
 	Gui, Show,, %title%
 	return
 	
@@ -41,7 +43,6 @@ EditList(title="Edit TheCloser Windows") {
 	Gui, 2:Default
 	Gui, +Owner1
 	Gui, Font, % "cBlack" " s11",% "Arial"
-	;~ Gui, Color, % style.Background, % style.Background
 	Gui, Add, Text, Section, Window Title/Class:
 	Gui, Add, Edit, y+5 cBlue w400 h30 vwtitle, % editmode ? RegExReplace(RegExReplace(editwin.text,"^%a_space%",A_Space),"%a_space%$",A_Space) : ""
 	Gui, Add, Text, xs y+20, Display Name (Optional):
@@ -130,5 +131,7 @@ EditList(title="Edit TheCloser Windows") {
 	GuiEscape:
 	config.save(1)
 	Gui, Destroy
+	while, hk:=config.sn("//hotkeys/cmd").Item[A_Index-1]
+		hotkeys(hk.text)
 	return
 }

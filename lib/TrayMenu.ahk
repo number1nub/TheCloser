@@ -5,9 +5,15 @@ TrayMenu() {
 	
 	Menu, DefaultAHK, Standard
 	Menu, Tray, NoStandard
-	Menu, Tray, Add, Edit Window List, EditList
-	Menu, Tray, Add, Edit Ignore Window List, IgnoreWinManager
-	Menu, Tray, Add, Edit Hotkeys, EditHotkeys
+	
+	while, hks:=config.sn("//hotkeys/cmd").Item[A_Index-1], ea:=config.ea(hks)
+		Menu, Tray, Add, % ea.description (hks.text ? "`t(" ConvertHotkey(hks.text) ")":""), % ea.name
+	
+	/*
+		Menu, Tray, Add, Edit Window List, EditList
+		Menu, Tray, Add, Edit Ignore Window List, IgnoreWinManager
+		Menu, Tray, Add, Edit Hotkeys, EditHotkeys
+	*/
 	Menu, Tray, Add,
 	Menu, Tray, Add, Open Settings File, MenuAction
 	Menu, Tray, Add, Open Containing Dir, MenuAction
@@ -22,7 +28,8 @@ TrayMenu() {
 	Menu, Tray, Add, Reload, MenuAction
 	Menu, Tray, Add, Exit, MenuAction
 	
-	Menu, Tray, Default, Edit Window List
+	def := config.ea(defPath:="//hotkeys/cmd[contains(@description, 'Edit')][1]")
+	Menu, Tray, Default, % def.description (config.ssn(defPath).text ? "`t(" ConvertHotkey(config.ssn(defPath).text) ")":"")
 	
 	for c, v in ico {
 		if (!FileExist(v.path)) {

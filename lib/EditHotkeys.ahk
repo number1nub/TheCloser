@@ -1,31 +1,45 @@
-EditHotkeys() {
-	static
-	Gui, EditHotkeys:Default
-	Gui, Add, TreeView, gtvClick
-	Gui, Add, Button, gEditHK, &Edit
-	Gui, Add, Button, x+10 gButtonClose, &Close
-	hkTV:=TV_Add("Hotkeys"), hks:=config.sn("//hotkeys/cmd")
-	while hk:=hks.item(A_Index-1), ea:=config.ea(hk)
-		TV_Add(ea.description, hkTV)
-	TV_Modify(TV_GetNext(), "Expand")
-	Gui, Show,, Edit TheCloser Hotkeys
+EditHotkeys(refresh:="") {
+	static hkList, guiTitle:="Edit TheCloser Hotkeys"
+	
+	while, hk:=config.sn("//hotkeys/cmd").Item[A_Index-1]
+		hotkeys(hk.text)
+	
+	if (refresh && WinExist(guiTitle))
+		Gui, EditHK:Destroy
+	Gui, EditHK:Default
+	Gui, EditHK:+OwnDialogs
+	Gui, Margin, 0, 0
+	Gui, Font, s11 cBlue, Segoe UI
+	Gui, Add, ListView, % "w400 r" (config.sn("//hotkeys/cmd").Length+2) " Grid vhkList ghkListClick", Command|Hotkey
+	Gui, Add, Button, y+0 wp default gEditHK, &Edit
+	Gui, Add, Button, y+0 wp gButtonClose, &Close
+	Gui, Show,, %guiTitle%
+	Goto, HKListRefresh
 	return
 	
-	tvClick:
+	hkListClick:
 	if (A_GuiEvent != "DoubleClick")
 		return
 	EditHK:
-	Gui, Submit, NoHide
-	TV_GetText(tvItem, TV_GetSelection())
-	if (!tvItem:=config.ssn("//hotkeys/cmd[@description='" tvItem "']/@name").text)
+	LV_GetText(selItem, rw:=LV_GetNext())
+	if (!selItem:=config.ssn("//hotkeys/cmd[@description='" selItem "']/@name").text)
 		return
-	EditHotkey(tvItem)
+	EditHotkey(selItem)
 	return
 	
-	EditHotkeysGuiClose:
-	EditHotkeysGuiEscape:
+	EditHKGuiClose:
+	EditHKGuiEscape:
 	ButtonClose:
-	Gui, Destroy
+	Gui, EditHK:Destroy
 	Reload
+	return
+	
+	HKListRefresh:
+	GuiControl, EditHK:-Redraw, hkList
+	LV_Delete()
+	while hk:=config.sn("//hotkeys/cmd").Item[A_Index-1], ea:=config.ea(hk)
+		LV_Add("", ea.description, hk.text)
+	LV_ModifyCol(), LV_ModifyCol(2, "Center")
+	GuiControl, EditHK:+Redraw, hkList
 	return
 }
