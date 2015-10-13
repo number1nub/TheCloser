@@ -1,7 +1,7 @@
 Anchor(i, a := "", r := false) {
-	static c, cs:=12, cx:=255, cl:=0, g, gs:=8, gl:=0, gpi, gw, gh, z:=0, k:=0xffff, ptr
+	static c,cs:=12,cx:=255,cl:=0,g,gs:=8,gl:=0,gpi,gw,gh,z:=0,k:=0xffff,ptr
 	if z = 0
-		VarSetCapacity(g, gs*99, 0), VarSetCapacity(c, cs*cx, 0), ptr := A_PtrSize ? "Ptr" : "UInt", z := true
+		VarSetCapacity(g,gs*99,0),VarSetCapacity(c,cs*cx,0),ptr:=A_PtrSize?"Ptr":"UInt",z:=true
 	if !WinExist("ahk_id" . i) {
 		GuiControlGet t, Hwnd, %i%
 		if ErrorLevel = 0

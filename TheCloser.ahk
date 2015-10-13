@@ -2,7 +2,7 @@
 #SingleInstance,Force
 SetTitleMatchMode, 2
 SetWorkingDir, %A_ScriptDir%
-CheckCredentials()
+CheckAdmin()
 
 global config:=new xml("config", A_AppData "\WSNHapps\TheCloser\config.xml")
 if (!config.fileExists)
@@ -15,7 +15,7 @@ return
 
 #Include <Anchor>
 #Include <BackupSettings>
-#Include <CheckCredentials>
+#Include <CheckAdmin>
 #Include <CheckUpdate>
 #Include <class Xml>
 #Include <CloseWin>
