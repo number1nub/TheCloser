@@ -1,6 +1,4 @@
-CheckAdmin(get:="") {
-	if (get)
-		return A_IsAdmin
+CheckAdmin() {
 	if (!A_IsAdmin) {
 		if (%true% = "admin") {
 			MsgBox, 4148,, Failed to get admin credentials.`n`nTry again?
