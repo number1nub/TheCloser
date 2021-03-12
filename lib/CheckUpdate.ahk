@@ -2,11 +2,9 @@ CheckUpdate(_ReplaceCurrentScript:=1, _SuppressMsgBox:=0, _CallbackFunction:="",
 	Static Update_URL  := "http://files.wsnhapps.com/TheCloser/TheCloser.text"
 		 , Download_URL := "http://files.wsnhapps.com/TheCloser/TheCloser.ahk"
 		 , Retry_Count := 2
-		 , Version
 		 , Script_Name
 	
-	;auto_version
-	if (!Version)
+	if (!version)
 		return
 	if (!Script_Name) {
 		SplitPath, A_ScriptFullPath,,,, scrName

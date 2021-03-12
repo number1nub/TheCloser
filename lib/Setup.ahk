@@ -1,4 +1,5 @@
 Setup() {
+	config.add2("options", {DClickTime:175})
 	hk := config.add2("hotkeys")
 	config.under(hk, "cmd", {name:"CloseWin", description:"Main Closer Hotkey"}, "~LButton & RButton")
 	config.under(hk, "cmd", {name:"EditList", description:"Edit Special Close Window List"}, "^+w")

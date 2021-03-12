@@ -4,12 +4,12 @@ SetTitleMatchMode, 2
 SetWorkingDir, %A_ScriptDir%
 CheckAdmin()
 
-global config:=new xml("config", A_AppData "\WSNHapps\TheCloser\config.xml")
+global config:=new xml("config", A_AppData "\WSNHapps\TheCloser\config.xml"), mainHK:="", timeOut:="", version:=";auto_version"
 if (!config.fileExists)
 	Setup()
-TrayMenu()
 CheckUpdate()
 RegisterHotkeys()
+TrayMenu()
 return
 
 
@@ -21,6 +21,7 @@ return
 #Include <CloseWin>
 #Include <CMBox>
 #Include <ConvertHotkey>
+#Include <DClick>
 #Include <EditHotkey>
 #Include <EditHotkeys>
 #Include <EditList>

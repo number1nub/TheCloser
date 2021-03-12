@@ -1,5 +1,8 @@
 
+build
+
 backup
 
 *.xml
 *.bak
+*.exe
