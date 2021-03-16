@@ -13,7 +13,7 @@ DClick() {
 	return
 	
 	DClickTimeOut:	;{
-		SendInput, % "{" mainHK "}"
+		SendInput, % "{" altHK "}"
 		clickCount := 0
 	return	;}
 }

@@ -6,9 +6,8 @@ RegisterHotkeys() {
 	hotkeys("Delete", "IgWinButtonDeleteWindow", "The Closer Ignore Window Manager")
 	
 	while, hk:=config.sn("//hotkeys/cmd").Item[A_Index-1], ea:=config.ea(hk) {
-		if (ea.name="CloseWin" && hk.text~="^DClick") {
-			;-- Register a Double-Click Hotkey --
-			mainHK := RegExReplace(hk.text, "i)^\s*DClick:\s*(\S+)\s*$", "$1")
+		if (ea.name="DClick") {
+			altHK := hk.text
 			if (!timeOut:=(Abs(config.get("//options/@DClickTime", ""))*-1)) {
 				config.add2("options", {DClickTime:150})
 				config.save(1)
@@ -17,9 +16,10 @@ RegisterHotkeys() {
 			while val:=config.sn("//disablelist/win").Item[A_Index-1]
 				GroupAdd, disableGroup, % val.text
 			Hotkey, IfWinNotActive, ahk_group disableGroup
-			Hotkey, %mainHK%, DClick
+			Hotkey, %altHK%, DClick, % (config.ea("//options").AltHKEnabled ? "On":"Off")
+			Hotkey, IfWinActive
 		}
 		else
-			hotkeys(hk.text, ea.name, ea.description="Main Closer Hotkey" ? "disableGroup" : "")
+			hotkeys(hk.text, ea.name, (ea.description="Main Closer Hotkey" || ea.description~="Alternate") ? "disableGroup" : "")
 	}
 }
