@@ -6,8 +6,14 @@ TrayMenu() {
 	Menu, DefaultAHK, Standard
 	Menu, Tray, NoStandard
 	
-	while, hks:=config.sn("//hotkeys/cmd").Item[A_Index-1], ea:=config.ea(hks)
-		Menu, Tray, Add, % ea.description (hks.text ? "`t(" ConvertHotkey(hks.text) ")":""), % ea.name
+	while, hks:=config.sn("//hotkeys/cmd").Item[A_Index-1], ea:=config.ea(hks) {
+		Menu, Tray, Add, % (tmp:=(ea.name="DClick" ? "Enable ":"") ea.description (hks.text ? "`t(" ConvertHotkey(hks.text) ")":"")), % ea.name (ea.name="DClick" ? "Toggle":"")
+		if (ea.name = "DClick") {
+			AltHKMenuName := tmp
+			Menu, Tray, % config.ea("//options").AltHKEnabled ? "Check":"UnCheck", %AltHKMenuName%
+		}
+	}
+	
 	Menu, Tray, Add,
 	Menu, Tray, Add, Open Settings File, MenuAction
 	Menu, Tray, Add, Open Containing Dir, MenuAction

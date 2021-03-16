@@ -4,7 +4,7 @@ SetTitleMatchMode, 2
 SetWorkingDir, %A_ScriptDir%
 CheckAdmin()
 
-global config:=new xml("config", A_AppData "\WSNHapps\TheCloser\config.xml"), mainHK:="", timeOut:="", version:=";auto_version"
+global config:=new xml("config", A_AppData "\WSNHapps\TheCloser\config.xml"), altHK:="", AltHKMenuName:="", timeOut:="", version:=";auto_version"
 if (!config.fileExists)
 	Setup()
 CheckUpdate()
@@ -12,6 +12,13 @@ RegisterHotkeys()
 TrayMenu()
 return
 
+DClickToggle() {
+	sPath := "//options/@AltHKEnabled"
+	config.ssn(sPath).text := config.ea("//options").AltHKEnabled ? 0 : 1
+	config.save(1)
+	Menu, Tray, % (config.ea("//options").AltHKEnabled ? "Check" : "UnCheck"), %AltHKMenuName%
+	Hotkey, %altHK%, DClick, % (config.ea("//options").AltHKEnabled ? "On" : "Off")
+}
 
 #Include <Anchor>
 #Include <BackupSettings>
