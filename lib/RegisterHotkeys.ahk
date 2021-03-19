@@ -8,18 +8,21 @@ RegisterHotkeys() {
 	while, hk:=config.sn("//hotkeys/cmd").Item[A_Index-1], ea:=config.ea(hk) {
 		if (ea.name="DClick") {
 			altHK := hk.text
-			if (!timeOut:=(Abs(config.get("//options/@DClickTime", ""))*-1)) {
-				config.add2("options", {DClickTime:150})
+			opts  := config.ssn("//options")
+			opt   := config.ea(opts)
+			if (!opt.DClickTime || !opt.AltHKEnabled) {
+				opts := config.add2("options", {DClickTime:(opt.DClickTime>0 ? opt.DClickTime : 175), AltHKEnabled:(opt.AltHKEnabled ? opt.AltHKEnabled : "true")})
 				config.save(1)
-				timeOut := -150
+				opt  := config.ea(opts)
 			}
+			timeOut := opt.DClickTime*-1
 			while val:=config.sn("//disablelist/win").Item[A_Index-1]
 				GroupAdd, disableGroup, % val.text
 			Hotkey, IfWinNotActive, ahk_group disableGroup
-			Hotkey, %altHK%, DClick, % (config.ea("//options").AltHKEnabled ? "On":"Off")
+			Hotkey, %altHK%, DClick, % (opt.AltHKEnabled="true" ? "On":"Off")
 			Hotkey, IfWinActive
 		}
 		else
-			hotkeys(hk.text, ea.name, (ea.description="Main Closer Hotkey" || ea.description~="Alternate") ? "disableGroup" : "")
+			hotkeys(hk.text, ea.name, ea.description="Main Closer Hotkey" ? "disableGroup" : "")
 	}
 }

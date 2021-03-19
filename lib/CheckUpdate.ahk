@@ -1,15 +1,11 @@
 CheckUpdate(_ReplaceCurrentScript:=1, _SuppressMsgBox:=0, _CallbackFunction:="", ByRef _Information:="") {
 	Static Update_URL  := "http://files.wsnhapps.com/TheCloser/TheCloser.text"
-		 , Download_URL := "http://files.wsnhapps.com/TheCloser/TheCloser.ahk"
+		 , Download_URL := "http://files.wsnhapps.com/TheCloser/TheCloser." (A_IsCompiled ? "exe" : "ahk")
+		 , Script_Name := "TheCloser"
 		 , Retry_Count := 2
-		 , Script_Name
 	
 	if (!version)
 		return
-	if (!Script_Name) {
-		SplitPath, A_ScriptFullPath,,,, scrName
-		Script_Name := scrName
-	}
 	Random, Filler, 10000000, 99999999
 	Version_File := A_Temp "\" Filler ".ini", Temp_FileName:=A_Temp "\" Filler ".tmp", VBS_FileName:=A_Temp "\" Filler ".vbs"
 	Loop, %Retry_Count% {

@@ -3,7 +3,7 @@ BackupSettings() {
 	curfPath := config.file
 	SplitPath, curfPath, curName, curDir
 	lastBUDir:=config.get("//backup/@dir", curDir), lastBUName:=config.get("//backup/@name", curName ".bak")
-	FileSelectFile, oPath, S 24, % Format("{1}\{2}",lastBUDir,lastBUName), Select where the backup should be saved:, Backup File (*.bak;*.xml)
+	FileSelectFile, oPath, S 24, % Format("{1}\{2}-{3}", lastBUDir, A_ComputerName, lastBUName), Select where the backup should be saved:, Backup File (*.bak;*.xml)
 	if (ErrorLevel || !oPath || oPath = config.file)
 		return
 	if (FileExist(oPath))

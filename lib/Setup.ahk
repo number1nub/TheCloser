@@ -1,5 +1,5 @@
 Setup() {
-	config.add2("options", {DClickTime:175, AltHKEnabled:1})
+	config.add2("options", {DClickTime:175, AltHKEnabled:"true"})
 	hk := config.add2("hotkeys")
 	config.under(hk, "cmd", {name:"CloseWin", description:"Main Closer Hotkey"}, "~LButton & RButton")
 	config.under(hk, "cmd", {name:"DClick", description:"Alternate Double-Click Hotkey"}, "MButton")
