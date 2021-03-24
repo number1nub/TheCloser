@@ -5,6 +5,10 @@ RegisterHotkeys() {
 	hotkeys("Escape", "CloseUseActive", "Add Active Window")
 	hotkeys("Delete", "IgWinButtonDeleteWindow", "The Closer Ignore Window Manager")
 	
+	;-- Catch any settings changes here --
+	if (!config.ssn("//hotkeys/cmd[@name='DClick']"))
+		config.add2("hotkeys/cmd", {name:"DClick", description:"Alternate Double-Click Hotkey"}, "MButton", 1)
+	
 	while, hk:=config.sn("//hotkeys/cmd").Item[A_Index-1], ea:=config.ea(hk) {
 		if (ea.name="DClick") {
 			altHK := hk.text

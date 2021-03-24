@@ -4,7 +4,7 @@ SetTitleMatchMode, 2
 SetWorkingDir, %A_ScriptDir%
 CheckAdmin()
 
-global config:=new xml("config", A_AppData "\WSNHapps\TheCloser\config.xml"), altHK:="", AltHKMenuName:="", timeOut:="", version:=";auto_version"
+global config:=new xml("config", A_AppData "\WSNHapps\TheCloser\config.xml"), altHK, AltHKMenuName, timeOut, version:=";auto_version"
 
 if (!config.fileExists)
 	Setup()
@@ -16,7 +16,6 @@ return
 
 #Include <Anchor>
 #Include <BackupSettings>
-#Include <CheckAdmin>
 #Include <CheckUpdate>
 #Include <class Xml>
 #Include <CloseWin>
